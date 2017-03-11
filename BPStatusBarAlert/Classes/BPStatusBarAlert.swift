@@ -181,12 +181,16 @@ extension BPStatusBarAlert {
     }
     
     fileprivate func addAlertViewInCurrentWindow() {
-        guard let keyWindow = UIApplication.shared.keyWindow,
-              let rootViewController = keyWindow.rootViewController as? UINavigationController else {
-            return
+        var topController = UIApplication.shared.keyWindow?.rootViewController;
+        
+        while (topController!.presentedViewController != nil) {
+            topController = topController!.presentedViewController;
         }
-        let navigationBar = rootViewController.navigationBar
-        rootViewController.view.insertSubview(self, belowSubview: navigationBar)
+        
+        if let topController = topController as? UINavigationController {
+            let navigationBar = topController.navigationBar
+            topController.view.insertSubview(self, belowSubview: navigationBar)
+        }
     }
 }
 
