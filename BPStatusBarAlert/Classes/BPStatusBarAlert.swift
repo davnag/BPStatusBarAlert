@@ -115,6 +115,16 @@ extension BPStatusBarAlert {
             }
         }
     }
+    
+    public func showOnNavigationController(navigationController:UINavigationController) {
+        let navigationBar = navigationController.navigationBar
+        navigationController.view.insertSubview(self, belowSubview: navigationBar)
+        startAnimation {
+            DispatchQueue.main.asyncAfter(deadline: .now() + self.delay) {
+                self.finishAnimating()
+            }
+        }
+    }
 }
 
 // MARK: animation functions
